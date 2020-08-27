@@ -11,6 +11,7 @@ import com.sbc.entity.Appointment;
 import com.sbc.projection.Appointment1;
 import com.sbc.projection.Appointment2;
 import com.sbc.projection.Appointment3;
+import com.sbc.projection.Appointment4;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Integer>{
 
@@ -23,6 +24,16 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 			"AND a.patientid_fk=p.id AND user_patient.id=p.id"
 			, nativeQuery = true)
 	List<Appointment1> getAllAppointments();
+	
+
+	/* GET APPOINTMENTS AFTER THE SELECTED DATE */
+	@Query(value="SELECT a.id, a.starttime, a.endtime, p.id AS patient_id, u.firstname AS firstname, u.lastname AS lastname, u.email AS email " + 
+			"FROM appointment as a, patient as p, user as u " + 
+			"WHERE a.patientid_fk = p.id " + 
+			"AND u.id = p.id " + 
+			"AND a.starttime > CAST(:selectedDate AS DATE)"
+			, nativeQuery = true)
+	List<Appointment4> getAppointmentsAfterThisDate(@Param("selectedDate") Date selectedDate);
 	
 	
 	/* GET APPOINTMENTS OF DOCTOR AFTER SELECTED DATE and TIME */

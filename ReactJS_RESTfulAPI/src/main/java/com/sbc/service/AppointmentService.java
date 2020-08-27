@@ -23,6 +23,7 @@ import com.sbc.exception.ForbiddenException;
 import com.sbc.projection.Appointment1;
 import com.sbc.projection.Appointment2;
 import com.sbc.projection.Appointment3;
+import com.sbc.projection.Appointment4;
 import com.sbc.repository.AppointmentDetailRepository;
 import com.sbc.repository.AppointmentRepository;
 
@@ -53,6 +54,11 @@ public class AppointmentService {
 		return appointmentRepository.getAllAppointments();
 	}
 
+	/* GET-ALL APPOINTMENTS AFTER THE SELECTED DATE */
+	public List<Appointment4> getAppointmentsAfterThisDate(Date date) {
+		return appointmentRepository.getAppointmentsAfterThisDate(date);
+	}
+	
 	/* GET APPOINTMENT BY ID */
 	public Appointment getOnly(int id) {
 		return appointmentRepository.findById(id)

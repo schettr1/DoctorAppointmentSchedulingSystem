@@ -13,6 +13,7 @@ import com.sbc.exception.DoctorNotFoundException;
 import com.sbc.exception.DuplicateUsernameException;
 import com.sbc.exception.EmployeeNotFoundException;
 import com.sbc.exception.ExceptionMessage;
+import com.sbc.exception.FailedEmailDeliveryException;
 import com.sbc.exception.FeedbackNotFoundException;
 import com.sbc.exception.ForbiddenException;
 
@@ -65,4 +66,15 @@ public class ExceptionControllerAdvice extends ResponseEntityExceptionHandler {
 		// return new ResponseEntity<Object>(message, HttpStatus.NOT_FOUND);
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);	
 	}
+	
+	@ExceptionHandler({
+		FailedEmailDeliveryException.class
+	})
+	public ResponseEntity<Object> handleFailedEmailDeliveryException(FailedEmailDeliveryException e) {
+		// send CustomExceptionMessage object in the response body.
+		ExceptionMessage message = new ExceptionMessage(CODE_BAD_REQUEST, HttpStatus.BAD_REQUEST, new Date(), e.getMessage());
+		// attach the status code along with the response body 
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);	
+	}
+	
 }
